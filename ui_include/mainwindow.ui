@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>机器人调试助手</string>
+   <string>phawd</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
