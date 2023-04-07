@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>WaveShow</class>
+ <widget class="QWidget" name="WaveShow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>950</width>
+    <height>610</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>950</width>
+    <height>610</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>波形显示</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QPushButton" name="batchAdd">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Batch Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QPushButton" name="batchDel">
+     <property name="minimumSize">
+      <size>
+       <width>110</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>110</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Batch Delete</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2">
+    <widget class="QPushButton" name="allStart">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Start</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QPushButton" name="allPause">
+     <property name="minimumSize">
+      <size>
+       <width>60</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>60</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Pause</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QPushButton" name="allReset">
+     <property name="minimumSize">
+      <size>
+       <width>140</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>75</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Clear and Reset</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QPushButton" name="save">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Save</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="6">
+    <widget class="QLabel" name="label_2">
+     <property name="minimumSize">
+      <size>
+       <width>72</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>72</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Freq(ms):</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="7">
+    <widget class="QSpinBox" name="freqInGraph">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>26</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>26</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+      </font>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="8">
+    <widget class="QLabel" name="label_3">
+     <property name="minimumSize">
+      <size>
+       <width>90</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>90</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+      </font>
+     </property>
+     <property name="text">
+      <string>Range of X:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="9">
+    <widget class="QSpinBox" name="xAxisWIDTH">
+     <property name="minimumSize">
+      <size>
+       <width>50</width>
+       <height>26</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>50</width>
+       <height>26</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+      </font>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>999999999</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="10">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>401</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" colspan="11">
+    <widget class="QCustomPlot" name="widget" native="true">
+     <property name="font">
+      <font>
+       <family>Segoe UI</family>
+      </font>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QCustomPlot</class>
+   <extends>QWidget</extends>
+   <header location="global">qcustomplot.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

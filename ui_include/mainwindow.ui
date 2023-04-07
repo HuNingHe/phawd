@@ -1,0 +1,750 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>748</width>
+    <height>532</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>Segoe UI</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>机器人调试助手</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="font">
+    <font>
+     <family>Bahnschrift SemiBold</family>
+    </font>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QStackedWidget" name="stackedWidget">
+      <widget class="QWidget" name="page">
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QLabel" name="nameLable">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Robot Name：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="robotNameEdit">
+          <property name="font">
+           <font>
+            <family>微软雅黑</family>
+           </font>
+          </property>
+          <property name="toolTip">
+           <string>SharedMemory name or Socket Port</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLabel" name="sharedTypeLable">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Shared Type:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5" colspan="4">
+         <widget class="QComboBox" name="choicesBox">
+          <property name="minimumSize">
+           <size>
+            <width>132</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>22</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="controlParameterLable">
+          <property name="minimumSize">
+           <size>
+            <width>150</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Control Parameters：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <spacer name="horizontalSpacer_8">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>155</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="1" column="4" colspan="3">
+         <widget class="QLabel" name="nameLable_2">
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Number of wave parameters:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0" rowspan="7" colspan="9">
+         <widget class="QTableWidget" name="paramTableWidget">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderCascadingSectionResizes">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>60</number>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>100</number>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>30</number>
+          </attribute>
+          <attribute name="verticalHeaderStretchLastSection">
+           <bool>false</bool>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Type</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Value</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+        <item row="4" column="9">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>188</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="5" column="9">
+         <widget class="QPushButton" name="deleteButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Remove</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="9">
+         <widget class="QPushButton" name="addButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Add</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="9">
+         <widget class="QPushButton" name="undoButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Undo</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="9">
+         <widget class="QPushButton" name="readyButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>OK</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0" colspan="2">
+         <widget class="QLabel" name="consoleLable">
+          <property name="minimumSize">
+           <size>
+            <width>130</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>130</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Console Output：</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2" colspan="4">
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>429</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item row="9" column="6" colspan="2">
+         <widget class="QPushButton" name="saveFileButton">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Save To File</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="8" colspan="2">
+         <widget class="QPushButton" name="readFileButton">
+          <property name="minimumSize">
+           <size>
+            <width>120</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>120</width>
+            <height>30</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+          <property name="text">
+           <string>Read From File</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" colspan="10">
+         <widget class="QTextBrowser" name="consoleOutput">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>90</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+            <pointsize>9</pointsize>
+           </font>
+          </property>
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Segoe UI','Bahnschrift SemiBold','Segoe UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'Times New Roman'; font-size:7pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="7" colspan="2">
+         <widget class="QSpinBox" name="waveParameterNum">
+          <property name="font">
+           <font>
+            <family>Segoe UI</family>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QToolButton" name="nameHint">
+          <property name="minimumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+          <property name="iconSize">
+           <size>
+            <width>20</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
+          </property>
+          <property name="checked">
+           <bool>false</bool>
+          </property>
+          <property name="autoRaise">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_2">
+       <widget class="QLabel" name="nameLable_3">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>20</y>
+          <width>180</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Author: HuNingHe</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nameLable_4">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>60</y>
+          <width>260</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>260</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Email: huning-he@qq.com</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nameLable_5">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>110</y>
+          <width>331</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>License: GPLv3</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nameLable_6">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>160</y>
+          <width>131</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Repository:</string>
+        </property>
+       </widget>
+       <widget class="QLabel" name="nameLable_7">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>200</y>
+          <width>380</width>
+          <height>30</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>380</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>https://github.com/HuNingHe/phawd</string>
+        </property>
+       </widget>
+       <widget class="QPlainTextEdit" name="plainTextEdit">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>240</y>
+          <width>360</width>
+          <height>40</height>
+         </rect>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>360</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>360</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="plainText">
+         <string>https://github.com/HuNingHe/phawd</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>748</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="parameter">
+    <property name="minimumSize">
+     <size>
+      <width>0</width>
+      <height>0</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
+    </property>
+    <property name="title">
+     <string>Parameters</string>
+    </property>
+    <addaction name="paramSetting"/>
+    <addaction name="joystickSetting"/>
+   </widget>
+   <widget class="QMenu" name="wave">
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
+    </property>
+    <property name="title">
+     <string>Waveform</string>
+    </property>
+    <addaction name="waveSetting"/>
+   </widget>
+   <widget class="QMenu" name="log">
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+     </font>
+    </property>
+    <property name="title">
+     <string>About</string>
+    </property>
+    <addaction name="logWave"/>
+   </widget>
+   <addaction name="parameter"/>
+   <addaction name="wave"/>
+   <addaction name="log"/>
+  </widget>
+  <action name="joystickSetting">
+   <property name="text">
+    <string>Joystick Test</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
+  </action>
+  <action name="waveSetting">
+   <property name="text">
+    <string>Waveform Displayer</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
+  </action>
+  <action name="paramSetting">
+   <property name="text">
+    <string>Parameters Setting</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
+  </action>
+  <action name="logWave">
+   <property name="text">
+    <string>About Phawd</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Segoe UI</family>
+    </font>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
