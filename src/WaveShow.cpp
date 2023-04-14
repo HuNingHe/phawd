@@ -24,6 +24,8 @@ WaveShow::~WaveShow(){
 }
 
 void WaveShow::initForm(){
+    setWindowIcon(QIcon(":/image/phawd.ico"));
+
     ui->xAxisWIDTH->setMinimum(2);
     ui->xAxisWIDTH->setMaximum(10000);
     m_selectedToAddIndex.clear();
