@@ -87,7 +87,13 @@ find_package(Qt5 COMPONENTS
                  OpenGL
                  Gamepad
                  REQUIRED)
-add_executable(phawd-executable main.cpp ${UI_FILES} ${UI_LOGIC_INC} ${UI_LOGIC_SRCS} ${QCUSTOMPLOT_SRC})
+add_executable(phawd-executable 
+                main.cpp 
+                ${UI_FILES} 
+                ${UI_LOGIC_INC} 
+                ${UI_LOGIC_SRCS} 
+                ${QCUSTOMPLOT_SRC}
+                phawd.qrc)
 target_include_directories(phawd-executable PRIVATE ${PHAWD_INCLUDES} ${PHAWD_EXECUTABLE_INCLUDE})
 target_link_libraries(phawd-executable PRIVATE
                       Qt5::Widgets
