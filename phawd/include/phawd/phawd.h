@@ -7,7 +7,7 @@
  * @email 2689112371@qq.com
  * @copyright (c) 2022 HuNing-He
  * @file phawd.h
- * @brief definition of socket communication in phawd
+ * @brief collection of phawd headers
  */
 
 #ifndef PHAWD_H
