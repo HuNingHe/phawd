@@ -12,11 +12,6 @@ IF(CUSTOM_PHAWD_PATH)
         NO_DEFAULT_PATH
     )
 
-    FIND_PROGRAM (PHAWD_EXECUTABLE phawd
-        PATHS
-        ${CUSTOM_PHAWD_PATH}/bin
-        NO_DEFAULT_PATH
-    )
 ELSE(CUSTOM_PHAWD_PATH)
     FIND_PATH (PHAWD_INCLUDE_DIR phawd/phawd.h
         HINTS
