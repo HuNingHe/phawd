@@ -16,6 +16,7 @@
 
 JoystickTestWindow::JoystickTestWindow(QWidget *parent) :QWidget(parent),m_manager(QGamepadManager::instance()), ui(new Ui::JoystickTestWindow){
     ui->setupUi(this);
+    setWindowIcon(QIcon(":/image/phawd.ico"));
 
     auto lstDevices = m_manager->connectedGamepads();
     m_gamepad = new QGamepad(lstDevices[0], this);
