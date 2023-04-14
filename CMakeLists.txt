@@ -76,8 +76,6 @@ if(${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)  # msvc
 elseif(${CMAKE_CXX_COMPILER_ID} STREQUAL GNU)  # gcc
     message(STATUS "-- CMAKE_CXX_COMPILER: ${CMAKE_CXX_COMPILER_ID}")
     list(APPEND CMAKE_PREFIX_PATH "${QT_DIR}/${MINGW_PREFIX_PATH}")
-    add_compile_options("$<$<C_COMPILER_ID:GNU>:/utf-8>")
-    add_compile_options("$<$<CXX_COMPILER_ID:GNU>:/utf-8>")
 endif()
 
 find_package(Qt5 COMPONENTS
