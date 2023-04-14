@@ -119,6 +119,8 @@ install(TARGETS phawd-static phawd-shared phawd-executable
         )
 
 install(FILES ${PHAWD_HEADERS} DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/phawd")
+install(FILES phawd.ico phawd.png DESTINATION "${CMAKE_INSTALL_BINDIR}")
+
 include(CMakePackageConfigHelpers)
 export(EXPORT ${PROJECT_NAME}
        FILE ${CMAKE_CURRENT_BINARY_DIR}/phawd-targets.cmake
