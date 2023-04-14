@@ -46,6 +46,8 @@ MainWindow::~MainWindow(){
 }
 
 void MainWindow::initForm(){
+    setWindowIcon(QIcon(":/image/phawd.ico"));
+
     QIcon hintIcon = QApplication::style()->standardIcon(QStyle::SP_MessageBoxQuestion);
     ui->nameHint->setIcon(hintIcon);
     ui->nameHint->setToolTip(tr("SharedMemory Name or Socket Port"));
