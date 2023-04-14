@@ -7,7 +7,6 @@
  * @email 2689112371@qq.com
  * @copyright (c) 2022 HuNing-He
  * @file phawd_config.h
- * @brief definition of socket communication in phawd
  */
 
 #ifndef PHAWD_CONFIG_H
