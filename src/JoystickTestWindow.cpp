@@ -18,7 +18,11 @@ JoystickTestWindow::JoystickTestWindow(QWidget *parent) :QWidget(parent),m_manag
     setWindowIcon(QIcon(":/image/phawd.ico"));
 
     auto lstDevices = m_manager->connectedGamepads();
+#if _WIN32
     m_gamepad = new QGamepad(0, this);
+#else
+    m_gamepad = new QGamepad(lstDevices[0], this);
+#endif
     if (!lstDevices.empty()){
         ui->connectedState->setText("Connected");
     } else {
