@@ -10,7 +10,6 @@
  * @brief check joystick
  */
 
-#include <QDebug>
 #include <QWindow>
 #include "JoystickTestWindow.h"
 
@@ -19,7 +18,7 @@ JoystickTestWindow::JoystickTestWindow(QWidget *parent) :QWidget(parent),m_manag
     setWindowIcon(QIcon(":/image/phawd.ico"));
 
     auto lstDevices = m_manager->connectedGamepads();
-    m_gamepad = new QGamepad(lstDevices[0], this);
+    m_gamepad = new QGamepad(0, this);
     if (!lstDevices.empty()){
         ui->connectedState->setText("Connected");
     } else {
