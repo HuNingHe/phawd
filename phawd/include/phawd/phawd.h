@@ -12,8 +12,8 @@
 
 #ifndef PHAWD_H
 #define PHAWD_H
+#include "phawd/SocketConnect.h"
 #include "phawd/SharedMemory.h"
 #include "phawd/SharedParameter.h"
-#include "phawd/SocketConnect.h"
 
 #endif // PHAWD_H
