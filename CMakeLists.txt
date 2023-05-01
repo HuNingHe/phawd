@@ -93,8 +93,8 @@ add_executable(phawd-executable
                 ${UI_LOGIC_INC} 
                 ${UI_LOGIC_SRCS} 
                 ${QCUSTOMPLOT_SRC}
-                phawd.qrc
-                phawd.rc)
+                resources/phawd.qrc
+                resources/phawd.rc)
 target_include_directories(phawd-executable PRIVATE ${PHAWD_INCLUDES} ${PHAWD_EXECUTABLE_INCLUDE})
 target_link_libraries(phawd-executable PRIVATE
                       Qt5::Widgets
