@@ -61,7 +61,7 @@ void MainWindow::initForm(){
     this->readOnlyDelegate = new ReadOnlyDelegate();
     this->comboBoxDelegate = new ComboBoxDelegate();
 
-    QRegExp regExp("^[a-zA-Z_]\\w{,10}$");
+    QRegExp regExp("^[a-zA-Z][a-zA-Z0-9_]{0,15}$");
     ui->robotNameEdit->setValidator(new QRegExpValidator(regExp, this));
 
     QStringList Items2 = {"FLOAT","DOUBLE","S64","VEC3_FLOAT", "VEC3_DOUBLE"};
@@ -255,7 +255,7 @@ void MainWindow::choiceChanged(int index){
     switch (index){
         case 0:{
             ui->robotNameEdit->clear();
-            QRegExp regExp("^[a-zA-Z_]\\w{,10}$");
+            QRegExp regExp("^[a-zA-Z][a-zA-Z0-9_]{0,15}$");
             ui->robotNameEdit->setValidator(new QRegExpValidator(regExp, this));
             m_usingSocket = false;
             m_waveShow->setUsingSocket(m_usingSocket);
