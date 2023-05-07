@@ -616,19 +616,19 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>30</x>
           <y>240</y>
-          <width>360</width>
+          <width>460</width>
           <height>40</height>
          </rect>
         </property>
         <property name="minimumSize">
          <size>
-          <width>360</width>
+          <width>460</width>
           <height>40</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>360</width>
+          <width>460</width>
           <height>40</height>
          </size>
         </property>
