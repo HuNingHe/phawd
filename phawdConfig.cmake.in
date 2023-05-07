@@ -1,63 +1,56 @@
-IF(CUSTOM_PHAWD_PATH)
-    FIND_PATH (PHAWD_INCLUDE_DIR phawd/phawd.h
-        PATHS
-        ${CUSTOM_PHAWD_PATH}/include
-        NO_DEFAULT_PATH
-    )
+STRING(REPLACE "/lib/cmake/phawd" "" PHAWD_PATH ${phawd_DIR})
 
-    FIND_LIBRARY (PHAWD_LIBRARY phawd
-        PATHS
-        ${CUSTOM_PHAWD_PATH}/bin
-        ${CUSTOM_PHAWD_PATH}/lib
-        NO_DEFAULT_PATH
-    )
-
-ELSE(CUSTOM_PHAWD_PATH)
-    FIND_PATH (PHAWD_INCLUDE_DIR phawd/phawd.h
-        HINTS
-        "C:/Program Files (x86)/phawd/include"
-        "C:/Program Files/phawd/include"
-        $ENV{HOME}/local/include
-        $ENV{PHAWD_PATH}/include
-        $ENV{PHAWD_INCLUDE_PATH}
-        ${CMAKE_INSTALL_PREFIX}/include
-        ${CMAKE_INSTALL_PREFIX}/Library/include
-        /usr/local/include
-        /usr/include
-        )
-
-    FIND_LIBRARY (PHAWD_LIBRARY phawd
-        PATHS
-        "C:/Program Files (x86)/phawd/lib"
-        "C:/Program Files/phawd/lib"
-        $ENV{HOME}/local/lib
-        $ENV{HOME}/local/lib/x86_64-linux-gnu
-        $ENV{PHAWD_PATH}/lib
-        $ENV{PHAWD_LIBRARY_PATH}
-        ${CMAKE_INSTALL_PREFIX}/lib
-        ${CMAKE_INSTALL_PREFIX}/Library/lib
-        /usr/local/lib
-        /usr/local/lib/x86_64-linux-gnu
-        /usr/lib
-        /usr/lib/x86_64-linux-gnu
-        )
-ENDIF(CUSTOM_PHAWD_PATH)
-
-IF (PHAWD_INCLUDE_DIR AND PHAWD_LIBRARY)
-  SET (PHAWD_FOUND TRUE)
-ELSE(PHAWD_INCLUDE_DIR AND PHAWD_LIBRARY)
-  IF(PHAWD_FIND_REQUIRED)
-    MESSAGE (SEND_ERROR " Could not find PHAWD.")
-    MESSAGE (SEND_ERROR " Try setting CUSTOM_PHAWD_PATH force CMake to use the desired directory.")
-  ELSE(PHAWD_FIND_REQUIRED)
-    MESSAGE (STATUS " Could not find PHAWD.")
-    MESSAGE (STATUS " Try setting CUSTOM_PHAWD_PATH force CMake to use the desired directory.")
-  ENDIF(PHAWD_FIND_REQUIRED)
-ENDIF (PHAWD_INCLUDE_DIR AND PHAWD_LIBRARY)
-
-MARK_AS_ADVANCED (
-  PHAWD_INCLUDE_DIR
-  PHAWD_LIBRARY
+FIND_PATH(PHAWD_INCLUDE_DIR phawd/phawd.h
+    PATHS
+    "${PHAWD_PATH}/include"
+    NO_DEFAULT_PATH
+    REQUIRED
 )
+
+IF(WIN32)
+    FIND_LIBRARY(PHAWD_STATIC_LIB phawd
+        PATHS
+        "${PHAWD_PATH}/lib"
+        NO_DEFAULT_PATH
+    )
+    FIND_FILE(PHAWD_SHARED_LIB NAMES phawd.dll
+        PATHS
+        "${PHAWD_PATH}/bin"
+        NO_DEFAULT_PATH
+    )
+ELSEIF(UNIX)
+    FIND_LIBRARY(PHAWD_STATIC_LIB NAMES libphawd.a
+        PATHS
+        "${PHAWD_PATH}/lib"
+        NO_DEFAULT_PATH
+    )
+    FIND_LIBRARY(PHAWD_SHARED_LIB phawd
+        PATHS
+        "${PHAWD_PATH}/lib"
+        NO_DEFAULT_PATH
+    )
+ENDIF()
+
+IF(PHAWD_INCLUDE_DIR AND PHAWD_STATIC_LIB AND PHAWD_SHARED_LIB)
+    SET (PHAWD_FOUND TRUE)
+ELSE(PHAWD_INCLUDE_DIR AND PHAWD_STATIC_LIB AND PHAWD_SHARED_LIB)
+    IF(PHAWD_FIND_REQUIRED)
+        MESSAGE(SEND_ERROR " Could not find PHAWD.")
+        MESSAGE(SEND_ERROR " Try setting phawd_DIR force CMake to use the desired directory.")
+    ELSE(PHAWD_FIND_REQUIRED)
+        MESSAGE(STATUS " Could not find PHAWD.")
+        MESSAGE(STATUS " Try setting phawd_DIR force CMake to use the desired directory.")
+    ENDIF(PHAWD_FIND_REQUIRED)
+ENDIF(PHAWD_INCLUDE_DIR AND PHAWD_STATIC_LIB AND PHAWD_SHARED_LIB)
+
+MARK_AS_ADVANCED(
+    PHAWD_INCLUDE_DIR
+    PHAWD_STATIC_LIB
+    PHAWD_SHARED_LIB
+)
+
+MESSAGE(STATUS "PHAWD_INCLUDE_DIR found at ${PHAWD_INCLUDE_DIR}")
+MESSAGE(STATUS "PHAWD_STATIC_LIB found at ${PHAWD_STATIC_LIB}")
+MESSAGE(STATUS "PHAWD_SHARED_LIB found at ${PHAWD_SHARED_LIB}")
 
 include("${CMAKE_CURRENT_LIST_DIR}/phawd-targets.cmake")
