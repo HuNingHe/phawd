@@ -268,8 +268,10 @@ ParameterValue Parameter::getValue(ParameterKind kind) {
             value.vec3d[2] = m_value.vec3d[2];
             break;
         }
-        default:
-        throw std::runtime_error(" parameter invalid kind in get");
+        default:{
+            printf("[ERROR]: Parameter invalid kind in getValue(ParameterKind kind)");
+            throw std::runtime_error(" parameter invalid kind in get");
+        }
     }
     return value;
 }
@@ -305,11 +307,14 @@ T Parameter::getValue() {
         }
         return result;
     }
+    printf("[ERROR]: Parameter invalid kind in getValue<T>()");
     throw std::runtime_error("Error Type When using getValue in ControlParameterValue");
 }
 
 double Parameter::getDouble() {
     if (m_kind != ParameterKind::DOUBLE){
+        printf("[ERROR]: Try to use getDouble() for parameter(%s) "
+               "that is not of type DOUBLE", m_name);
         throw std::runtime_error("Parameter::getDouble(): type error");
     }
     return m_value.d;
@@ -317,6 +322,8 @@ double Parameter::getDouble() {
 
 float Parameter::getFloat() {
     if (m_kind != ParameterKind::FLOAT){
+        printf("[ERROR]: Try to use getFloat() for parameter(%s) "
+               "that is not of type FLOAT", m_name);
         throw std::runtime_error("Parameter::getDouble(): type error");
     }
     return m_value.f;
@@ -324,6 +331,8 @@ float Parameter::getFloat() {
 
 long int Parameter::getS64(){
     if (m_kind != ParameterKind::S64){
+        printf("[ERROR]: Try to use getS64() for parameter(%s) "
+               "that is not of type S64", m_name);
         throw std::runtime_error("Parameter::getS64(): type error");
     }
     return m_value.i;
@@ -345,6 +354,8 @@ std::string Parameter::getName() {
 
 std::vector<double> Parameter::getVec3d() {
     if (m_kind != ParameterKind::VEC3_DOUBLE){
+        printf("[ERROR]: Try to use getVec3d() for parameter(%s) "
+               "that is not of type VEC3_DOUBLE", m_name);
         throw std::runtime_error("Parameter::getVec3d(): type error");
     }
     return {m_value.vec3d[0], m_value.vec3d[1], m_value.vec3d[2]};
@@ -352,6 +363,8 @@ std::vector<double> Parameter::getVec3d() {
 
 std::vector<float> Parameter::getVec3f() {
     if (m_kind != ParameterKind::VEC3_FLOAT){
+        printf("[ERROR]: Try to use getVec3f() for parameter(%s) "
+               "that is not of type VEC3_FLOAT", m_name);
         throw std::runtime_error("Parameter::getVec3f(): type error");
     }
     return {m_value.vec3f[0], m_value.vec3f[1], m_value.vec3f[2]};
@@ -359,6 +372,8 @@ std::vector<float> Parameter::getVec3f() {
 
 double Parameter::getFromVec3dByIndex(int idx) {
     if (m_kind != ParameterKind::VEC3_DOUBLE || idx < 0){
+        printf("[ERROR]: Try to use getFromVec3dByIndex() for parameter(%s) "
+               "that is not of type VEC3_DOUBLE", m_name);
         throw std::runtime_error("Parameter::getFromVec3dByIndex(): type error or index negative");
     }
     return m_value.vec3d[idx];
@@ -366,6 +381,8 @@ double Parameter::getFromVec3dByIndex(int idx) {
 
 float Parameter::getFromVec3fByIndex(int idx) {
     if (m_kind != ParameterKind::VEC3_FLOAT || idx < 0){
+        printf("[ERROR]: Try to use getFromVec3fByIndex() for parameter(%s) "
+               "that is not of type VEC3_FLOAT", m_name);
         throw std::runtime_error("Parameter::getFromVec3fByIndex(): type error or index negative");
     }
     return m_value.vec3f[idx];
@@ -420,6 +437,8 @@ Parameter& ParameterCollection::lookup(const std::string& name) {
     if(mapContains(m_map, name)){
         return *m_map[name];
     } else {
+        printf("[ERROR]: ParameterCollection::lookup() error"
+               "Parameter named: %s not found", name.c_str());
         throw std::runtime_error(" parameter " + name + " wasn't found in parameter collection " + m_name);
     }
 }
