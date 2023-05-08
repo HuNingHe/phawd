@@ -216,14 +216,16 @@ void SharedMemory<T>::closeNew() {
 template<class T>
 void SharedMemory<T>::detach() {
     if (_data == nullptr) {
+        printf("[ERROR] SharedMemory::detach() failed, the shared memory doesn't exist!");
         throw std::runtime_error(
                 "[ERROR] SharedMemory::detach() failed, the shared memory "
                 "doesn't exist");
     }
 
     if (!UnmapViewOfFile((void *)_data)) {
+        printf("[ERROR] SharedMemory::detach() failed, UnmapViewOfFile failed!");
         throw std::runtime_error(
-                "[ERROR] SharedMemory::detach(): UnmapViewOfFile failed");
+                "[ERROR] SharedMemory::detach(): UnmapViewOfFile failed!");
     }
     printf("[Shared Memory] SharedMemory::detach (%s) success\n",
            _name.c_str());
@@ -236,13 +238,14 @@ void SharedMemory<T>::detach() {
 template<class T>
 void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allowOverwrite){
     if (size <= 0) {
-        throw std::runtime_error(
-            "[Shared Memory] SharedMemory::createNew: invalid size!");
+        printf("[ERROR] SharedMemory::createNew: invalid size!");
+        throw std::runtime_error("[ERROR] SharedMemory::createNew: invalid size!");
     }
     _size = size;
     if (name.length() == 0) {
+        printf("[ERROR] SharedMemory::createNew: Shared memory name is NULL string!");
         throw std::runtime_error(
-            "[Shared Memory] SharedMemory::createNew: Shared memory name is NULL string!");
+            "[ERROR] SharedMemory::createNew: Shared memory name is NULL string!");
     }
     _name = name;
     struct stat s{};  // restore file information
@@ -250,17 +253,21 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
     _fd = shm_open(name.c_str(), O_RDWR | O_CREAT,
                    S_IWUSR | S_IRUSR | S_IWGRP | S_IRGRP | S_IROTH);
     if (_fd < 0) {
-        throw std::runtime_error("[ERROR] SharedMemory create file failed");
+        printf("[ERROR] SharedMemory::createNew(), create file failed!");
+        throw std::runtime_error("[ERROR] SharedMemory create file failed!");
     }
 
     printf("[Shared Memory] Open new %s, size %ld bytes\n", name.c_str(), _size);
 
     if (fstat(_fd, &s)) {
-        throw std::runtime_error("[ERROR] SharedMemory file state error");
+        printf("[ERROR] SharedMemory::createNew(), file state error!");
+        throw std::runtime_error("[ERROR] SharedMemory::createNew(), file state error!");
     }
 
     if (s.st_size) {
         if (!allowOverwrite) {
+            printf("[Shared Memory] SharedMemory::createNew on something that "
+                "wasn't new, file has already existed!");
             throw std::runtime_error(
                 "[Shared Memory] SharedMemory::createNew on something that "
                 "wasn't new, file has already existed!");
@@ -268,11 +275,13 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
     }
 
     if (ftruncate(_fd, _size)) {
+        printf("[ERROR] SharedMemory::createNew(): ftruncate() error");
         throw std::runtime_error("[ERROR] SharedMemory::createNew(): ftruncate() error");
     }
 
     void *mem = mmap(nullptr, _size, PROT_READ | PROT_WRITE, MAP_SHARED, _fd, 0);
     if (mem == MAP_FAILED) {
+        printf("[ERROR] SharedMemory::createNew() mmap failed!");
         throw std::runtime_error("[ERROR] SharedMemory::createNew() mmap failed!");
     }
     memset(mem, 0, _size);
@@ -285,13 +294,15 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
 template<class T>
 void SharedMemory<T>::attach(const std::string &name, size_t size){
     if (size <= 0) {
+        printf("[ERROR] SharedMemory::attach(): invalid size!");
         throw std::runtime_error(
             "[Shared Memory] SharedMemory::attach: invalid size!");
     }
     _size = size;
     if (name.length() == 0) {
+        printf("[ERROR] SharedMemory::attach(): Shared memory name is NULL string!");
         throw std::runtime_error(
-            "[Shared Memory] SharedMemory::createNew: Shared memory name "
+            "[Shared Memory] SharedMemory::attach: Shared memory name "
             "is NULL string!");
     }
     _name = name;
@@ -300,23 +311,27 @@ void SharedMemory<T>::attach(const std::string &name, size_t size){
     _fd = shm_open(name.c_str(), O_RDWR,
                    S_IWUSR | S_IRUSR | S_IWGRP | S_IRGRP | S_IROTH);
     if (_fd < 0) {
+        printf("[ERROR] SharedMemory::attach():  open file failed!");
         throw std::runtime_error(
-            "[ERROR] SharedMemory::attach(): open file failed");
+            "[ERROR] SharedMemory::attach(): open file failed!");
     }
 
     printf("[Shared Memory] open existing %s size %ld bytes\n", name.c_str(), _size);
 
     if (fstat(_fd, &s)) {
-        throw std::runtime_error("[ERROR] SharedMemory file state error");
+        printf("[ERROR] SharedMemory::attach(): file state error!");
+        throw std::runtime_error("[ERROR] SharedMemory::attach(): file state error!");
     }
 
     if (s.st_size != _size) {
+        printf("[ERROR] SharedMemory::attach() on incorrect size!");
         throw std::runtime_error(
-            "[Shared Memory] SharedMemory::attach on incorrect size!");
+            "[ERROR] SharedMemory::attach() on incorrect size!");
     }
 
     void *mem = mmap(nullptr, _size, PROT_READ | PROT_WRITE, MAP_SHARED, _fd, 0);
     if (mem == MAP_FAILED) {
+        printf("[ERROR] SharedMemory::attach(): mmap failed!);
         throw std::runtime_error("[ERROR] SharedMemory::attach(): mmap failed!");
     }
     _data = (T *) mem;
@@ -331,19 +346,22 @@ void SharedMemory<T>::attach(const std::string &name, size_t size){
 template<class T>
 void SharedMemory<T>::closeNew(){
     if (_data == nullptr) {
+        printf("[ERROR] SharedMemory::closeNew(): the shared memory doesn't exist!");
         throw std::runtime_error(
             "[ERROR] SharedMemory::closeNew(): the shared memory doesn't "
             "exist");
     }
 
     if (munmap((void *) _data, _size)) {
+        printf("[ERROR] SharedMemory::closeNew(): munmap failed!");
         throw std::runtime_error(
-            "[ERROR] SharedMemory::closeNew(): munmap failed");
+            "[ERROR] SharedMemory::closeNew(): munmap failed!");
     }
 
     if (shm_unlink(_name.c_str())) {
+        printf("[ERROR] SharedMemory::closeNew(): shm_unlink error!");
         throw std::runtime_error(
-            "[ERROR] SharedMemory::closeNew() shm_unlink error");
+            "[ERROR] SharedMemory::closeNew() shm_unlink error!");
     }
 
     // close fd and delete shared file
@@ -364,14 +382,16 @@ void SharedMemory<T>::closeNew(){
 template<class T>
 void SharedMemory<T>::detach(){
     if (_data == nullptr) {
+        printf("[ERROR] SharedMemory::detach(): the shared memory doesn't exist!");
         throw std::runtime_error(
             "[ERROR] SharedMemory::detach() failed, the shared memory "
             "doesn't exist");
     }
 
     if (munmap((void *) _data, _size)) {
+        printf("[ERROR] SharedMemory::detach(): munmap failed!");
         throw std::runtime_error(
-            "[ERROR] SharedMemory::detach(): munmap failed");
+            "[ERROR] SharedMemory::detach(): munmap failed!");
     }
 
     _data = nullptr;
@@ -393,6 +413,7 @@ void SharedMemory<T>::detach(){
 template<class T>
 T* SharedMemory<T>::get(){
     if (_data == nullptr){
+        printf("[ERROR] SharedMemory::get(), create or attach shared memory first!");
         throw std::runtime_error("create or attach shared memory first!");
     }
     return _data;
@@ -401,6 +422,7 @@ T* SharedMemory<T>::get(){
 template<class T>
 T& SharedMemory<T>::operator()(){
     if (_data == nullptr){
+        printf("[ERROR] SharedMemory::operator(), create or attach shared memory first!");
         throw std::runtime_error("create or attach shared memory first!");
     }
     return *_data;
