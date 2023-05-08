@@ -148,6 +148,12 @@ ParameterKind Parameter::getValueKind() {
     return m_kind;
 }
 
+void Parameter::setValue(float value) {
+    m_kind = ParameterKind::FLOAT;
+    m_value.f = value;
+    m_set = true;
+}
+
 void Parameter::setValue(double value){
     m_kind = ParameterKind::DOUBLE;
     m_value.d = value;
