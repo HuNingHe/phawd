@@ -34,11 +34,13 @@ template<class T>
 void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allowOverwrite) {
     // Size should be an integer multiple of 4096, this automatically done by system
     if (size <= 0) {
+        printf("[Shared Memory] SharedMemory::createNew: invalid size!");
         throw std::runtime_error(
                 "[Shared Memory] SharedMemory::createNew: invalid size!");
     }
     _size = size;
     if (name.length() == 0) {
+        printf("[Shared Memory] SharedMemory::createNew: Shared memory name is NULL string!");
         throw std::runtime_error(
                 "[Shared Memory] SharedMemory::createNew: Shared memory name "
                 "is NULL string!");
@@ -59,6 +61,8 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
 
     if (GetLastError() == ERROR_ALREADY_EXISTS) {  // Check that if the file has already existed
         if (!allowOverwrite) {
+            printf("[ERROR]:SharedMemory::createNew on something that "
+                   "wasn't new, file has already existed!");
             throw std::runtime_error(
                     "[Shared Memory] SharedMemory::createNew on something that "
                     "wasn't new, file has already existed!");
@@ -81,6 +85,8 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
     }
 
     if (fileHandle == INVALID_HANDLE_VALUE) {
+        printf("[ERROR] SharedMemory::createNew() create file failed: "
+               "INVALID_HANDLE_VALUE. Make sure that you have the administrator permissions");
         throw std::runtime_error(
                 "[ERROR] SharedMemory create file failed: "
                 "INVALID_HANDLE_VALUE");
@@ -93,6 +99,8 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
     if (_fileMapping != nullptr) {
         CloseHandle(_fileMapping);
         if(!allowOverwrite){
+            printf("[ERROR] SharedMemory::createNew(): fileMapping with "
+                   "the same name has already existed, please close it and retry");
             throw std::runtime_error(
                     "[Shared Memory] SharedMemory::createNew(): fileMapping with "
                     "the same name has already existed, please close it and retry");
@@ -104,6 +112,7 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
 
     if (_fileMapping == nullptr) {
         CloseHandle(fileHandle);
+        printf("[ERROR] SharedMemory::createNew() MapViewOfFile failed!");
         throw std::runtime_error(
                 "[ERROR] SharedMemory::createNew() MapViewOfFile failed!");
     }
