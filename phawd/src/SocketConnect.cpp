@@ -35,7 +35,7 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
     isServer = is_server;
     // we use non-block socket here
     if (sendSize <= 0 || readSize <= 0){
-        printf("[Socket Connect] Init error, please input positive sendSize and readSize!\n");
+        printf("[SocketConnect] Init error, please input positive sendSize and readSize!\n");
         return;
     }
 
@@ -44,19 +44,22 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
     wVersionRet = MAKEWORD(2,2);
     // Open socket library
     if (WSAStartup(wVersionRet, &wsaData) != 0){
-        throw std::runtime_error("[Socket Connect] Open Socket Library failed!\n");
+        printf("[ERROR] SocketConnect::Init(), Open Socket Library failed!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::Init(), Open Socket Library failed!\n");
     }
     // Check that if the system support version of 2.2
     if (LOBYTE(wsaData.wVersion) != 2 || HIBYTE(wsaData.wVersion) != 2){
         WSACleanup();
-        throw std::runtime_error("[Socket Connect] The system does not support socket for version 2.2\n");
+        printf("[ERROR] SocketConnect::Init(), The system does not support socket for version 2.2!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::Init(), The system does not support socket for version 2.2!\n");
     }
     // Based on TCP protocol, we use SOCK_STREAM other than SOCK_DGRAM
     // Let the system decide for itself what protocol to use
     socket_fd = socket(AF_INET, SOCK_STREAM, 0);
     if(socket_fd == INVALID_SOCKET){
         WSACleanup();
-        throw std::runtime_error("[Socket Connect] Create socket failed!\n");
+        printf("[ERROR] SocketConnect::Init(), Create socket failed!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::Init(), Create socket failed!\n");
     }
     // If iMode = 0, blocking is enabled;
     // If iMode != 0, non-blocking mode is enabled.
@@ -64,7 +67,8 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
     unsigned long iMode = 1;
     int iResult = ioctlsocket(socket_fd, FIONBIO, (unsigned long *)&iMode);//设置成非阻塞模式
     if (iResult != NO_ERROR){
-        throw std::runtime_error("Failed to set socket to non-block state");
+        printf("[ERROR] SocketConnect::Init(), Failed to set socket to non-block state!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::Init(), Failed to set socket to non-block state");
     }
 
     _sendSize = sendSize;
@@ -86,7 +90,7 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
 template<typename SendData, typename ReadData>
 void SocketConnect<SendData, ReadData>::connectToServer(const std::string& ipAddr, unsigned short port, long int milliseconds){
     if (port <= 0) {
-        printf("SocketConnect::connectToServer : invalid port!\n");
+        printf("[ERROR] SocketConnect::connectToServer(): invalid port!\n");
         return;
     }
 
@@ -136,13 +140,16 @@ void SocketConnect<SendData, ReadData>::connectToServer(const std::string& ipAdd
     if(n == 0){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("connect timeout\n");
+        printf("[ERROR] SocketConnect::connectToServer(), connect timeout!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::connectToServer(), connect timeout!");
     }else if(n < 0){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("connect error, please check the ipv4 address format!\n");
+        printf("[ERROR] SocketConnect::connectToServer(), connect error, please check the ipv4 address format!");
+        throw std::runtime_error("[ERROR] SocketConnect::connectToServer(), "
+                                 "connect error, please check the ipv4 address format!\n");
     }else{
-        printf("[Socket Connect] Connect success!\n");
+        printf("[SocketConnect] Connect success!\n");
     }
 }
 
@@ -156,7 +163,7 @@ void SocketConnect<SendData, ReadData>::connectToServer(const std::string& ipAdd
 template<typename SendData, typename ReadData>
 void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int listenQueueLength, long int milliseconds){
     if (port <= 0) {
-        printf("SocketConnect::listenToClient : invalid port!\n");
+        printf("[ERROR] SocketConnect::listenToClient(): invalid port!\n");
         return;
     }
     memset(&_clientAddr, 0, sizeof(SOCKADDR_IN)); // init address
@@ -167,13 +174,15 @@ void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int 
     if(bind(socket_fd, (LPSOCKADDR)&_clientAddr, sizeof(SOCKADDR_IN)) == SOCKET_ERROR){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("[Socket Connect] Bind faild!\n");
+        printf("[ERROR] SocketConnect::listenToClient(), Bind failed!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(), Bind failed!\n");
     }
 
     if(listen(socket_fd, listenQueueLength) == SOCKET_ERROR){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("[Socket Connect] Listen faild!\n");
+        printf("[ERROR] SocketConnect::listenToClient(), Listen failed!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(), Listen failed!\n");
     }
     printf("Enter listening state!");
     fd_set rset;
@@ -196,11 +205,13 @@ void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int 
     if(n == 0){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("listen timeout\n");
+        printf("[ERROR] SocketConnect::listenToClient(), Listen Timeout!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(), Listen Timeout!\n");
     }else if(n < 0){
         closesocket(socket_fd);
         WSACleanup();
-        throw std::runtime_error("listen error\n");
+        printf("[ERROR] SocketConnect::listenToClient(), Listen Error!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(), Listen Error!\n");
     }else{
         int nAddrlen = sizeof(_clientAddr);
         /*！accept:
@@ -210,10 +221,11 @@ void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int 
          */
         connected_fd = accept(socket_fd, (LPSOCKADDR)&_clientAddr, &nAddrlen);
         if(connected_fd == INVALID_SOCKET){
-            throw std::runtime_error("accept error\n");
+            printf("[ERROR] SocketConnect::listenToClient(), accept Error!\n");
+            throw std::runtime_error("[ERROR] SocketConnect::listenToClient(), accept Error!\n");
         }
     }
-    printf("[Socket Connect] Bind and Listen success!\n");
+    printf("[SocketConnect] Bind and Listen success!\n");
 }
 
 template<typename SendData, typename ReadData>
@@ -239,7 +251,7 @@ void SocketConnect<SendData, ReadData>::Close() {
         free(_readData);
         _readData = nullptr;
     }
-    printf("[Socket Connect] Close Success\n");
+    printf("[SocketConnect] Close Success\n");
 }
 
 #elif __linux__
@@ -256,12 +268,13 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
 
     // we use non-block socket here
     if (sendSize <= 0 || readSize <= 0){
-        printf("[Socket Connect] Init error, please input positive sendSize and readSize!\n");
+        printf("[ERROR] SocketConnect::Init() error, please input positive sendSize and readSize!\n");
         return;
     }
     socket_fd = socket(AF_INET, SOCK_STREAM | SOCK_NONBLOCK, 0);
     if(socket_fd < 0) {
-        throw std::runtime_error("[Socket Connect] Create socket failed!\n");
+        printf("[ERROR] SocketConnect::Init() error, Create socket failed!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::Init() error, Create socket failed!\n");
     }
 
     _sendSize = sendSize;
@@ -272,13 +285,13 @@ void SocketConnect<SendData, ReadData>::Init(size_t sendSize, size_t readSize, b
     _readData = (ReadData *)malloc(_readSize);
     memset(_sendData, 0, _sendSize);
     memset(_readData, 0, _readSize);
-    printf("[Socket Connect] Init Success!\n");
+    printf("[SocketConnect] Init Success!\n");
 }
 
 template<typename SendData, typename ReadData>
 void SocketConnect<SendData, ReadData>::connectToServer(const std::string& serverIP, unsigned short port, long int milliseconds) {
     if (port <= 0) {
-        printf("SocketConnect::connectToServer : invalid port!\n");
+        printf("[ERROR] SocketConnect::connectToServer : invalid port!\n");
         return;
     }
     memset(&_clientAddr, 0, sizeof(_clientAddr));
@@ -286,7 +299,8 @@ void SocketConnect<SendData, ReadData>::connectToServer(const std::string& serve
     _clientAddr.sin_port = htons(port);
     // inet_pton return 1:success，0: invalid expression，-1: error
     if(inet_pton(AF_INET, serverIP.c_str(), &_clientAddr.sin_addr) <= 0) {
-        throw std::runtime_error("SocketConnect::connectToServer : Format error in IP address");
+        printf("[ERROR] SocketConnect::connectToServer(): Format error in IP address!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::connectToServer(): Format error in IP address");
     }
     connect(socket_fd, (struct sockaddr*)&_clientAddr, sizeof(_clientAddr));
 
@@ -303,12 +317,14 @@ void SocketConnect<SendData, ReadData>::connectToServer(const std::string& serve
     int n = select(socket_fd + 1, &r_set, &w_set, nullptr, &interval);
     if(n == 0){
         close(socket_fd);
-        throw std::runtime_error("connect timeout\n");
+        printf("[ERROR] SocketConnect::connectToServer(): connect timeout!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::connectToServer(): connect timeout!");
     }else if(n < 0){
         close(socket_fd);
-        throw std::runtime_error("connect error, please check the ipv4 address format!\n");
+        printf("[ERROR] SocketConnect::connectToServer(): connect error, please check the ipv4 address format!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::connectToServer(): connect error, please check the ipv4 address format!");
     }else{
-        printf("[Socket Connect] Connect success!\n");
+        printf("[SocketConnect] Connect success!\n");
     }
 }
 
@@ -324,12 +340,14 @@ void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int 
 
     if(bind(socket_fd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1){
         close(socket_fd);
-        throw std::runtime_error("bind socket error\n");
+        printf("[ERROR] SocketConnect::listenToClient(): bind socket error!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(): bind socket error!");
     }
 
     if(listen(socket_fd, listenQueueLength) == -1){
         close(socket_fd);
-        throw std::runtime_error("listen socket error\n");
+        printf("[ERROR] SocketConnect::listenToClient(): listen socket error!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(): listen socket error!");
     }
     printf("Enter listening state!\n");
 
@@ -343,19 +361,22 @@ void SocketConnect<SendData, ReadData>::listenToClient(unsigned short port, int 
     int n = select(socket_fd + 1, &r_set, nullptr, nullptr, &interval);
     if(n == 0) {
         close(socket_fd);
-        throw std::runtime_error("listen timeout\n");
+        printf("[ERROR] SocketConnect::listenToClient(): listen timeout!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(): listen timeout!");
     } else if(n < 0) {
         close(socket_fd);
-        throw std::runtime_error("listen error\n");
+        printf("[ERROR] SocketConnect::listenToClient(): listen error!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::listenToClient(): listen error!");
     } else {
         socklen_t nAddrlen = sizeof(_clientAddr);
         // 第二个参数为返回的客户端地址, 第三个返回客户端发回的数据长度, 设置为NULL表示不关心
         connected_fd = accept(socket_fd, (struct sockaddr*)&_clientAddr, &nAddrlen);
         if(connected_fd < 0){
-            throw std::runtime_error("accept error\n");
+            printf("[ERROR] SocketConnect::listenToClient(): accept error!\n");
+            throw std::runtime_error("[ERROR] SocketConnect::listenToClient(): accept error!");
         }
     }
-    printf("[Socket Connect] Bind and Listen success!\n");
+    printf("[SocketConnect] Bind and Listen success!\n");
 }
 
 template<typename SendData, typename ReadData>
@@ -391,7 +412,7 @@ SocketConnect<SendData, ReadData>::~SocketConnect() {
 template<typename SendData, typename ReadData>
 int SocketConnect<SendData, ReadData>::Send(bool verbose){
     if ( _sendSize <= 0 || _sendData == nullptr ) {
-        printf("[Socket Connect] Send failed, Init first \n");
+        printf("[ERROR] SocketConnect::Send() failed, Init first \n");
         return -1;
     }
     char *sendBuff = new char[_sendSize];
@@ -413,7 +434,7 @@ int SocketConnect<SendData, ReadData>::Send(bool verbose){
             nRet = send(connected_fd, sendBuff, _sendSize, 0);
             if (nRet <= 0){
                 if (verbose){
-                    printf("[Socket Connect] Send failed! \n");
+                    printf("[SocketConnect] Send failed! \n");
                 }
                 nRet = -1;
             }
@@ -423,7 +444,7 @@ int SocketConnect<SendData, ReadData>::Send(bool verbose){
             nRet = send(socket_fd, sendBuff, _sendSize, 0);
             if (nRet <= 0){
                 if (verbose){
-                    printf("[Socket Connect] Send failed! \n");
+                    printf("[SocketConnect] Send failed! \n");
                 }
                 nRet = -1;
             }
@@ -433,7 +454,7 @@ int SocketConnect<SendData, ReadData>::Send(bool verbose){
     delete []sendBuff;
     sendBuff = nullptr;
     if (verbose){
-        printf("[Socket Connect] Send Finished! \n");
+        printf("[SocketConnect] Send Finished! \n");
     }
     return nRet;
 }
@@ -441,7 +462,7 @@ int SocketConnect<SendData, ReadData>::Send(bool verbose){
 template<typename SendData, typename ReadData>
 int SocketConnect<SendData, ReadData>::Read(bool verbose){
     if (_readSize <= 0 || _readData == nullptr){
-        printf("[Socket Connect] Read failed, Init first \n");
+        printf("[ERROR] SocketConnect::Read() failed, Init first \n");
         return -1;
     }
 
@@ -462,7 +483,7 @@ int SocketConnect<SendData, ReadData>::Read(bool verbose){
             nRet = recv(connected_fd, readBuff, _readSize, 0);
             if (nRet <= 0){
                 if (verbose){
-                    printf("[Socket Connect] Read failed! \n");
+                    printf("[SocketConnect] Read failed! \n");
                 }
                 nRet = -1;
             }
@@ -472,7 +493,7 @@ int SocketConnect<SendData, ReadData>::Read(bool verbose){
             nRet = recv(socket_fd, readBuff, _readSize, 0);
             if (nRet <= 0){
                 if (verbose){
-                    printf("[Socket Connect] Read failed! \n");
+                    printf("[SocketConnect] Read failed! \n");
                 }
                 nRet = -1;
             }
@@ -484,7 +505,7 @@ int SocketConnect<SendData, ReadData>::Read(bool verbose){
     delete []readBuff;
     readBuff = nullptr;
     if (verbose){
-        printf("[Socket Connect] Read Finished! \n");
+        printf("[SocketConnect] Read Finished! \n");
     }
     return nRet;
 }
@@ -492,7 +513,8 @@ int SocketConnect<SendData, ReadData>::Read(bool verbose){
 template<typename SendData, typename ReadData>
 SendData *SocketConnect<SendData, ReadData>::getSend(){
     if (_sendData == nullptr){
-        throw std::runtime_error("Init first!");
+        printf("[ERROR] SocketConnect::getSend() failed, Init first!\n");
+        throw std::runtime_error("[ERROR] SocketConnect::getSend() failed, Init first!");
     }
     return _sendData;
 }
