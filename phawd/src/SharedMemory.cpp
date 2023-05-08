@@ -34,15 +34,15 @@ template<class T>
 void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allowOverwrite) {
     // Size should be an integer multiple of 4096, this automatically done by system
     if (size <= 0) {
-        printf("[Shared Memory] SharedMemory::createNew: invalid size!");
+        printf("[ERROR] SharedMemory::createNew: invalid size!");
         throw std::runtime_error(
-                "[Shared Memory] SharedMemory::createNew: invalid size!");
+                "[ERROR] SharedMemory::createNew: invalid size!");
     }
     _size = size;
     if (name.length() == 0) {
-        printf("[Shared Memory] SharedMemory::createNew: Shared memory name is NULL string!");
+        printf("[ERROR] SharedMemory::createNew: Shared memory name is NULL string!");
         throw std::runtime_error(
-                "[Shared Memory] SharedMemory::createNew: Shared memory name "
+                "[ERROR] SharedMemory::createNew: Shared memory name "
                 "is NULL string!");
     }
     _name = name;
@@ -64,7 +64,7 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
             printf("[ERROR]:SharedMemory::createNew on something that "
                    "wasn't new, file has already existed!");
             throw std::runtime_error(
-                    "[Shared Memory] SharedMemory::createNew on something that "
+                    "[ERROR] SharedMemory::createNew on something that "
                     "wasn't new, file has already existed!");
         } else {
             int fh;
@@ -101,9 +101,8 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
         if(!allowOverwrite){
             printf("[ERROR] SharedMemory::createNew(): fileMapping with "
                    "the same name has already existed, please close it and retry");
-            throw std::runtime_error(
-                    "[Shared Memory] SharedMemory::createNew(): fileMapping with "
-                    "the same name has already existed, please close it and retry");
+            throw std::runtime_error("[ERROR] SharedMemory::createNew(): fileMapping with "
+                               "the same name has already existed, please close it and retry");
         }
     }
 
@@ -138,20 +137,21 @@ void SharedMemory<T>::createNew(const std::string &name, size_t size, bool allow
 template<class T>
 void SharedMemory<T>::attach(const std::string &name, size_t size) {
     if (size <= 0) {
-        throw std::runtime_error(
-                "[Shared Memory] SharedMemory::attach: invalid size!");
+        printf("[ERROR] SharedMemory::attach: invalid size!");
+        throw std::runtime_error("[ERROR] SharedMemory::attach: invalid size!");
     }
     _size = size;
     if (name.length() == 0) {
-        throw std::runtime_error(
-                "[Shared Memory] SharedMemory::attach: name is NULL string!");
+        printf("[ERROR] SharedMemory::attach: name is NULL string!");
+        throw std::runtime_error("[ERROR] SharedMemory::attach: name is NULL string!");
     }
     _name = name;
     // attention that when using OpenFileMapping function, we must use
     // FILE_MAP_ALL_ACCESS other than PAGE_READWRITE,otherwise it doesn't work
     _fileMapping = OpenFileMapping(FILE_MAP_ALL_ACCESS, false, name.c_str());
     if (_fileMapping == nullptr) {
-        throw std::runtime_error("[Shared Memory] SharedMemory attach failed");
+        printf("[ERROR] SharedMemory::attach: fileMapping is NULL pointer!");
+        throw std::runtime_error("[ERROR] SharedMemory::attach: fileMapping is NULL pointer!");
     }
     // attention that MapViewOfFile treat FILE_MAP_ALL_ACCESS as FILE_MAP_WRITE
     void *shmBase =
@@ -171,16 +171,19 @@ void SharedMemory<T>::attach(const std::string &name, size_t size) {
 template<class T>
 void SharedMemory<T>::closeNew() {
     if (_data == nullptr) {
+        printf("[ERROR] SharedMemory::closeNew(): the shared memory doesn't exist!");
         throw std::runtime_error(
                 "[ERROR] SharedMemory::closeNew(): the shared memory doesn't "
                 "exist");
     }
     if (!UnmapViewOfFile((void *)_data)) {
+        printf("[ERROR] SharedMemory::closeNew(): UnmapViewOfFile failed!");
         throw std::runtime_error(
-                "[ERROR] SharedMemory::closeNew(): UnmapViewOfFile failed");
+                "[ERROR] SharedMemory::closeNew(): UnmapViewOfFile failed!");
     }
 
     if (!CloseHandle(_fileMapping)) {
+        printf("[ERROR] SharedMemory::closeNew(): Close fileMapping error!");
         throw std::runtime_error(
                 "[ERROR] SharedMemory::closeNew() Close fileMapping error");
     }
