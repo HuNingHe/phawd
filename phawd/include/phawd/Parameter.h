@@ -89,6 +89,13 @@ public:
     /*!
      * Construct control parameter for a double
      * @param name : name of parameter
+     * @param value : float value
+     */
+    Parameter(const std::string &name, float value);
+	
+    /*!
+     * Construct control parameter for a double
+     * @param name : name of parameter
      * @param value : double value
      */
     Parameter(const std::string &name, double value);
@@ -129,6 +136,7 @@ public:
     explicit Parameter(const std::string &name, const std::vector<float>& value);
 
     bool setName(const std::string& name);
+    void setValue(float value);
     void setValue(double value);
     void setValue(long int value);
     void setValue(const double* value);
