@@ -179,7 +179,7 @@ private:
     std::string m_name;
 public:
     std::map<std::string, Parameter *> m_map;
-    explicit ParameterCollection(std::string name)
+    explicit ParameterCollection(std::string name="")
         : m_name(std::move(name))
     {}
     /*!
