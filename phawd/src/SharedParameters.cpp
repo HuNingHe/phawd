@@ -58,7 +58,8 @@ SharedParameters &SharedParameters::operator=(const SharedParameters &p) {
     if (this != &p) {
         size_t count_real = p.numControlParams + p.numWaveParams;
         if(realloc(this, sizeof(SharedParameters) + count_real * sizeof(Parameter)) == nullptr){
-            throw std::runtime_error("realloc error in operator=!");
+            printf("[ERROR] SharedParameters::operator=(), realloc error!");
+            throw std::runtime_error("[ERROR] SharedParameters::operator=(), realloc error!");
         }
         connected = p.connected;
         numControlParams = p.numControlParams;
@@ -92,14 +93,19 @@ SharedParameters &SharedParameters::operator=(SharedParameters &&p) noexcept{
 
 SharedParameters *SharedParameters::create(int num_control_params, int num_wave_params) {
     if (num_control_params < 0 || num_wave_params < 0){
-        throw std::runtime_error("Both numControlParams and numWaveParams are negative!");
+        printf("[ERROR] SharedParameters::create(), Both numControlParams and numWaveParams are negative!");
+        throw std::runtime_error("[ERROR] SharedParameters::create(), "
+                                 "Both numControlParams and numWaveParams are negative!");
     }
     if (num_control_params == 0 && num_wave_params == 0){
-        throw std::runtime_error("Both numControlParams and numWaveParams are zero!");
+        printf("[ERROR] SharedParameters::create(), Both numControlParams and numWaveParams are zero!");
+        throw std::runtime_error("[ERROR] SharedParameters::create(), "
+                                 "Both numControlParams and numWaveParams are zero!");
     }
     auto sp = (SharedParameters*) malloc(sizeof(SharedParameters) + sizeof(Parameter) * (num_wave_params + num_control_params));
     if (sp == nullptr){
-        throw std::runtime_error("malloc error in SharedParameters::create!");
+        printf("[ERROR] SharedParameters::create(), malloc error!");
+        throw std::runtime_error("[ERROR] SharedParameters::create(), malloc error!");
     }
     sp->numControlParams = num_control_params;
     sp->numWaveParams = num_wave_params;
@@ -139,7 +145,8 @@ SocketFromPhawd &SocketFromPhawd::operator=(const SocketFromPhawd &p) {
     if (this != &p) {
         size_t count_real = p.numControlParams;
         if(realloc(this, sizeof(SocketFromPhawd) + count_real * sizeof(Parameter)) == nullptr){
-            throw std::runtime_error("realloc error in operator=!");
+            printf("[ERROR] SocketFromPhawd::operator=(), realloc error!");
+            throw std::runtime_error("[ERROR] SocketFromPhawd::operator=(), realloc error!");
         }
         numControlParams = p.numControlParams;
         std::memcpy(&gameCommand, &p.gameCommand, sizeof(GamepadCommand));
@@ -169,12 +176,14 @@ SocketFromPhawd &SocketFromPhawd::operator=(SocketFromPhawd &&p) noexcept{
 
 SocketFromPhawd *SocketFromPhawd::create(int num_params){
     if (num_params <= 0){
-        throw std::runtime_error("num_params is negative or zero!");
+        printf("[ERROR] SocketFromPhawd::operator=(), num_params is negative or zero!");
+        throw std::runtime_error("[ERROR] SocketFromPhawd::operator=(), num_params is negative or zero!");
     }
 
     auto sp = (SocketFromPhawd*) malloc(sizeof(SocketFromPhawd) + sizeof(Parameter) * num_params);
     if (sp == nullptr){
-        throw std::runtime_error("malloc error in SharedParameters::create!");
+        printf("[ERROR] SocketFromPhawd::operator=(), malloc error!");
+        throw std::runtime_error("[ERROR] SocketFromPhawd::operator=(), malloc error!");
     }
     sp->numControlParams = num_params;
     sp->gameCommand.init();
@@ -211,7 +220,8 @@ SocketToPhawd &SocketToPhawd::operator=(const SocketToPhawd &p){
     if (this != &p) {
         size_t count_real = p.numWaveParams;
         if(realloc(this, sizeof(SocketToPhawd) + count_real * sizeof(Parameter)) == nullptr){
-            throw std::runtime_error("realloc error in operator=!");
+            printf("[ERROR] SocketToPhawd::operator=(), realloc error!");
+            throw std::runtime_error("[ERROR] SocketToPhawd::operator=(), realloc error!");
         }
         numWaveParams = p.numWaveParams;
         for (size_t i = 0; i < count_real; ++i) {
@@ -238,12 +248,14 @@ SocketToPhawd &SocketToPhawd::operator=(SocketToPhawd &&p) noexcept{
 
 SocketToPhawd *SocketToPhawd::create(int num_params){
     if (num_params <= 0){
-        throw std::runtime_error("num_params is negative or zero!");
+        printf("[ERROR] SocketToPhawd::create(), num_params is negative or zero!");
+        throw std::runtime_error("[ERROR] SocketToPhawd::create(), num_params is negative or zero!");
     }
 
     auto sp = (SocketToPhawd*) malloc(sizeof(SocketToPhawd) + sizeof(Parameter) * num_params);
     if (sp == nullptr){
-        throw std::runtime_error("malloc error in SharedParameters::create!");
+        printf("[ERROR] SocketToPhawd::create(), malloc error!");
+        throw std::runtime_error("[ERROR] SocketToPhawd::create(), malloc error!");
     }
     sp->numWaveParams = num_params;
     for (int i = 0; i < num_params; ++i) {
