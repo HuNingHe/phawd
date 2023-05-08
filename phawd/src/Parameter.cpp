@@ -79,6 +79,13 @@ Parameter::Parameter(const std::string& name, ParameterKind &kind, ParameterValu
     m_set = true;
 }
 
+Parameter::Parameter(const std::string& name, float value) {
+    if(!this->setName(name)) return;
+    m_set = true;
+    m_value.f = value;
+    m_kind = ParameterKind::FLOAT;
+}
+
 Parameter::Parameter(const std::string& name, double value) {
     if(!this->setName(name)) return;
     m_set = true;
