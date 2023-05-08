@@ -204,8 +204,8 @@ void Parameter::setValue(const std::vector<float>& value) {
 
 void Parameter::setValue(ParameterKind kind, const ParameterValue& value) {
     if(m_kind != kind) {
-        printf("[ Parameter]: The parameter type is different with setting type.");
-        throw std::runtime_error(" parameter type mismatch in set");
+        printf("[ERROR] Parameter::setValue(), The parameter type is different with setting type.");
+        throw std::runtime_error("[ERROR] Parameter::setValue(), The parameter type is different with setting type.");
     }
     switch(m_kind) {
         case ParameterKind::FLOAT:
@@ -243,8 +243,8 @@ void Parameter::setValue(ParameterKind kind, const ParameterValue& value) {
 ParameterValue Parameter::getValue(ParameterKind kind) {
     ParameterValue value;
     if (kind != m_kind) {
-        printf("[ Parameter]: The parameter type is different with setting type.");
-        throw std::runtime_error(" parameter type mismatch in get");
+        printf("[ERROR] Parameter::getValue(), The parameter type is different with getting type.");
+        throw std::runtime_error("[ERROR] Parameter::getValue(), The parameter type is different with getting type.");
     }
     switch (m_kind) {
         case ParameterKind::FLOAT:
@@ -269,8 +269,8 @@ ParameterValue Parameter::getValue(ParameterKind kind) {
             break;
         }
         default:{
-            printf("[ERROR]: Parameter invalid kind in getValue(ParameterKind kind)");
-            throw std::runtime_error(" parameter invalid kind in get");
+            printf("[ERROR]: Parameter::getValue(ParameterKind kind) invalid kind\n");
+            throw std::runtime_error("[ERROR]: Parameter::getValue(ParameterKind kind) invalid kind");
         }
     }
     return value;
@@ -307,8 +307,8 @@ T Parameter::getValue() {
         }
         return result;
     }
-    printf("[ERROR]: Parameter invalid kind in getValue<T>()");
-    throw std::runtime_error("Error Type When using getValue in ControlParameterValue");
+    printf("[ERROR]: Parameter::getValue<T>() invalid kind\n");
+    throw std::runtime_error("[ERROR]: Parameter::getValue<T>() invalid kind");
 }
 
 double Parameter::getDouble() {
