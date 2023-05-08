@@ -300,6 +300,7 @@ void WaveShow::addDataToGraph(){
 
     for (int i = 0; i < ui->widget->graphCount(); i++){
         paramsIndex = getIndexOfSelectedParameters(i);
+        QString paramName = QString::fromStdString(m_sharedMessage->parameters[paramsIndex.first].getName());
 
         if(!m_usingSocket){
             switch (m_sharedMessage->parameters[paramsIndex.first].getValueKind()){
@@ -310,6 +311,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getVec3f() for parameter(%1)"
+                                                        " that is not of type VEC3_FLOAT").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage, 
+                                              QMessageBox::Discard,  
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -320,6 +328,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getVec3d() for parameter(%1)"
+                                                        " that is not of type VEC3_DOUBLE").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -330,6 +345,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getDouble() for parameter(%1)"
+                                                        " that is not of type DOUBLE").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -340,6 +362,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getFloat() for parameter(%1)"
+                                                        " that is not of type FLOAT").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -350,6 +379,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getS64() for parameter(%1)"
+                                                        " that is not of type S64").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -365,6 +401,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getVec3f() for parameter(%1)"
+                                                        " that is not of type VEC3_FLOAT").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -375,6 +418,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getVec3d() for parameter(%1)"
+                                                        " that is not of type VEC3_DOUBLE").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -385,6 +435,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getDouble() for parameter(%1)"
+                                                        " that is not of type DOUBLE").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -395,6 +452,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getFloat() for parameter(%1)"
+                                                        " that is not of type FLOAT").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
@@ -405,6 +469,13 @@ void WaveShow::addDataToGraph(){
                         ui->widget->graph(i)->addData(time, value);
                         break;
                     } catch (std::runtime_error &err){
+                        QString windowMessage = QString("Start Failed!Try to use getS64() for parameter(%1)"
+                                                        " that is not of type S64").arg(paramName);
+                        QMessageBox::critical(this, tr("Error"),
+                                              windowMessage,
+                                              QMessageBox::Discard,
+                                              QMessageBox::Discard);
+                        m_timer->stop();
                         break;
                     }
                 }
