@@ -1,0 +1,9 @@
+RobotName: demo
+Type: SharedMemory 
+WaveParamNum: 3
+DOUBLE:
+  pd: [2]
+S64:
+  ps64: [123]
+VEC3_DOUBLE:
+  pvec3d: [1, 2, 3]
