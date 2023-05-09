@@ -300,9 +300,9 @@ void WaveShow::addDataToGraph(){
 
     for (int i = 0; i < ui->widget->graphCount(); i++){
         paramsIndex = getIndexOfSelectedParameters(i);
-        QString paramName = QString::fromStdString(m_sharedMessage->parameters[paramsIndex.first].getName());
 
         if(!m_usingSocket){
+            QString paramName = QString::fromStdString(m_sharedMessage->parameters[paramsIndex.first].getName());
             switch (m_sharedMessage->parameters[paramsIndex.first].getValueKind()){
                 case phawd::ParameterKind::VEC3_FLOAT:{
                     float value;
@@ -393,6 +393,7 @@ void WaveShow::addDataToGraph(){
                     break;
             }
         }else{
+            QString paramName = QString::fromStdString(m_socketToPhawd->parameters[paramsIndex.first].getName());
             switch (m_socketToPhawd->parameters[paramsIndex.first].getValueKind()){
                 case phawd::ParameterKind::VEC3_FLOAT:{
                     float value;
