@@ -21,7 +21,7 @@ int main() {
     if (usingPhawd){
         std::string nameList[5] = {"pf", "pd", "ps64", "pvec3f", "pvec3d"};
         controlParamNum = shm->get()->numControlParams;
-        shm->get()->connected = 1;
+        shm->get()->connected += 1;
         shm->get()->numWaveParams = waveParamNum;
         for (int i = 0; i < waveParamNum; ++i) {
             shm->get()->parameters[controlParamNum +i].setName(nameList[i]);//Waveform parameters are appended after Control parameters
@@ -58,5 +58,6 @@ int main() {
         }
         iter++;
     }
+    shm->get()->connected -= 1;
     return 0;
 }
