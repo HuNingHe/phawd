@@ -331,7 +331,7 @@ void SharedMemory<T>::attach(const std::string &name, size_t size){
 
     void *mem = mmap(nullptr, _size, PROT_READ | PROT_WRITE, MAP_SHARED, _fd, 0);
     if (mem == MAP_FAILED) {
-        printf("[ERROR] SharedMemory::attach(): mmap failed!);
+        printf("[ERROR] SharedMemory::attach(): mmap failed!");
         throw std::runtime_error("[ERROR] SharedMemory::attach(): mmap failed!");
     }
     _data = (T *) mem;
