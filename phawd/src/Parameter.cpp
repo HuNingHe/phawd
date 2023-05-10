@@ -276,6 +276,7 @@ ParameterValue Parameter::getValue(ParameterKind kind) {
     return value;
 }
 
+/*
 template<typename T>
 T Parameter::getValue() {
     if(std::is_same<T, float>::value && m_kind == ParameterKind::FLOAT){
@@ -310,6 +311,7 @@ T Parameter::getValue() {
     printf("[ERROR]: Parameter::getValue<T>() invalid kind\n");
     throw std::runtime_error("[ERROR]: Parameter::getValue<T>() invalid kind");
 }
+*/
 
 double Parameter::getDouble() {
     if (m_kind != ParameterKind::DOUBLE){
