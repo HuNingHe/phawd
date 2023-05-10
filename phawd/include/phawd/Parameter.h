@@ -146,8 +146,8 @@ public:
     void setValue(ParameterKind kind, const ParameterValue& value);
     void setValueKind(ParameterKind kind);
 
-    template<typename T>
-    T getValue();
+//     template<typename T>
+//     T getValue();
     /*!
      * Get the value of a control parameter.  Does type checking - you must provide
      * the correct type.
