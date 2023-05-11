@@ -24,6 +24,10 @@ file(GLOB PHAWD_SRCS ${PROJECT_SOURCE_DIR}/phawd/src/*.cpp)
 add_definitions(-D_WINSOCK_DEPRECATED_NO_WARNINGS)
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
+if (CMAKE_SYSTEM_NAME MATCHES "Windows" AND CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    link_libraries(ws2_32 wsock32)
+endif()
+
 add_library(phawd-shared SHARED ${PHAWD_SRCS})
 # if you are using ninja generator, change the OUTPUT_NAME to another name
 set_target_properties(phawd-shared PROPERTIES OUTPUT_NAME phawd)
@@ -42,8 +46,8 @@ if (UNIX)
     target_link_libraries(phawd-shared rt)
     target_link_libraries(phawd-static rt)
 elseif (WINDOWS)
-    target_link_libraries(phawd-shared ws2_32)
-    target_link_libraries(phawd-static ws2_32)
+    target_link_libraries(phawd-shared ws2_32 wsock32)
+    target_link_libraries(phawd-static ws2_32 wsock32)
 endif ()
 
 add_definitions(-DQCUSTOMPLOT_USE_OPENGL)
