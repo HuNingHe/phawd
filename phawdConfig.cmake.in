@@ -8,16 +8,29 @@ FIND_PATH(PHAWD_INCLUDE_DIR phawd/phawd.h
 )
 
 IF(WIN32)
-    FIND_LIBRARY(PHAWD_STATIC_LIB phawd
-        PATHS
-        "${PHAWD_PATH}/lib"
-        NO_DEFAULT_PATH
-    )
-    FIND_FILE(PHAWD_SHARED_LIB NAMES phawd.dll
-        PATHS
-        "${PHAWD_PATH}/bin"
-        NO_DEFAULT_PATH
-    )
+    IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+        FIND_LIBRARY(PHAWD_STATIC_LIB phawd
+            PATHS
+            "${PHAWD_PATH}/lib"
+            NO_DEFAULT_PATH
+        )
+        FIND_FILE(PHAWD_SHARED_LIB NAMES libphawd.dll
+            PATHS
+            "${PHAWD_PATH}/bin"
+            NO_DEFAULT_PATH
+        )
+    ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+        FIND_LIBRARY(PHAWD_STATIC_LIB phawd
+            PATHS
+            "${PHAWD_PATH}/lib"
+            NO_DEFAULT_PATH
+        )
+        FIND_FILE(PHAWD_SHARED_LIB NAMES phawd.dll
+            PATHS
+            "${PHAWD_PATH}/bin"
+            NO_DEFAULT_PATH
+        )
+    ENDIF()
 ELSEIF(UNIX)
     FIND_LIBRARY(PHAWD_STATIC_LIB NAMES libphawd.a
         PATHS
@@ -53,4 +66,4 @@ MESSAGE(STATUS "PHAWD_INCLUDE_DIR found at ${PHAWD_INCLUDE_DIR}")
 MESSAGE(STATUS "PHAWD_STATIC_LIB found at ${PHAWD_STATIC_LIB}")
 MESSAGE(STATUS "PHAWD_SHARED_LIB found at ${PHAWD_SHARED_LIB}")
 
-include("${CMAKE_CURRENT_LIST_DIR}/phawd-targets.cmake")
+INCLUDE("${CMAKE_CURRENT_LIST_DIR}/phawd-targets.cmake")
