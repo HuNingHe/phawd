@@ -18,6 +18,8 @@
 #if __linux__
 #include <sys/mman.h>
 #include "unistd.h"
+#elif _WIN32
+#include <share.h>
 #endif
 
 using namespace phawd;
