@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(demos)
 
-list(APPEND CMAKE_PREFIX_PATH "D:/phawd/lib/cmake")  # change to your path
+STRING(REPLACE "examples" "lib/cmake" APPENDED_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+list(APPEND CMAKE_PREFIX_PATH ${APPENDED_DIR})
+
 find_package(phawd REQUIRED)
 
 set(CMAKE_CXX_STANDARD 11)
