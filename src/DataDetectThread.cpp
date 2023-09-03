@@ -64,7 +64,7 @@ void DataDetect::doDetection() {
             if (_paramsNameList.isEmpty()) {
                 continue;
             }
-            if (_paramsNameList.count() != m_sharedMessage->numControlParams + 2 * vecCount ){
+            if (_paramsNameList.count() != m_sharedMessage->numWaveParams + 2 * vecCount ){
                 continue;
             }
 
