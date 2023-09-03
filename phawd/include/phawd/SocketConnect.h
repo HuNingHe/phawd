@@ -19,8 +19,11 @@
 #include<arpa/inet.h>
 #include<unistd.h>
 #endif
-#include "phawd/phawd_config.h"
+
 #pragma once
+#include "phawd/phawd_config.h"
+#include <string>
+
 namespace phawd {
 /*!
  * This class is used for socket communication.
